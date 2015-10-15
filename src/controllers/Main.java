@@ -1,9 +1,10 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
-import static com.google.common.base.MoreObjects.toStringHelper;
 
+import static com.google.common.base.MoreObjects.toStringHelper;
 import models.User;
 
 public class Main
@@ -16,8 +17,8 @@ public class Main
     pacemakerAPI.createUser("Homer", "Simpson", "homer@simpson.com", "secret");
     pacemakerAPI.createUser("Lisa",  "Simpson", "lisa@simpson.com",  "secret");
 
-    List<User> users = pacemakerAPI.getUsers();
-    System.out.println(users);
+    Collection<User> user = pacemakerAPI.getUsers();
+    System.out.println(user);
   }
   
 }
