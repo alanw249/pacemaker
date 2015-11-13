@@ -20,7 +20,7 @@ public class PaceMakerAPI
 
   public  void deleteUsers() 
   {
-    userIndex.clear();
+  	userIndex.clear();
     emailIndex.clear();
   }
 
@@ -44,7 +44,7 @@ public class PaceMakerAPI
 
   public void deleteUser(Long id) 
   {
-    User user = userIndex.remove(id);
-    emailIndex.remove(user.email);
+  	User user = userIndex.remove(id);
+  	emailIndex.remove(user.email);
   }
 }
