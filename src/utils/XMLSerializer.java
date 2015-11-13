@@ -40,12 +40,7 @@ public class XMLSerializer implements Serializer
     {
       XStream xstream = new XStream(new DomDriver());
       is = xstream.createObjectInputStream(new FileReader(file));
-      Object obj = is.readObject();
-      while (obj != null)
-      {
-        stack.push(obj);
-        obj = is.readObject();
-      }
+      stack = (Stack) is.readObject();
     }
     finally
     {
@@ -64,10 +59,7 @@ public class XMLSerializer implements Serializer
     {
       XStream xstream = new XStream(new DomDriver());
       os = xstream.createObjectOutputStream(new FileWriter(file));
-      while (!stack.empty())
-      {
-        os.writeObject(stack.pop());  
-      }
+      os.writeObject(stack);
     }
     finally
     {
