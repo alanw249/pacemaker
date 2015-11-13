@@ -7,6 +7,9 @@ import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.List;
 
+import utils.Serializer;
+import utils.XMLSerializer;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -17,18 +20,26 @@ public class Main
 {
   public static void main(String[] args) throws Exception
   {    
-    PaceMakerAPI pacemakerAPI = new PaceMakerAPI();
-    File file = new File("datastore.xml");
-    pacemakerAPI.load(file);
+  	File  datastore = new File("datastore2.xml");
+    Serializer serializer = new XMLSerializer(datastore);
+
+    PaceMakerAPI pacemakerAPI = new PaceMakerAPI(serializer);
+    if (datastore.isFile())
+    {
+      pacemakerAPI.load();
+    }
+
+    pacemakerAPI.createUser("Bart", "Simpson",   "bart@simpson.com", "secret");
+    pacemakerAPI.createUser("Homer", "Simpson",  "homer@simpson.com", "secret");
+    pacemakerAPI.createUser("Lisa", "Simpson", " lisa@simpson.com", "secret");
+
     Collection<User> users = pacemakerAPI.getUsers();
     System.out.println(users);
-    
-    User homer = pacemakerAPI.getUserByEmail("homer@simpson.com");
-    System.out.println(homer);
 
-    pacemakerAPI.deleteUser(homer.id);
-    users = pacemakerAPI.getUsers();
-    System.out.println(users);
+    User homer = pacemakerAPI.getUserByEmail("homer@simpson.com");
+    pacemakerAPI.createActivity(homer.id, "walk", "tramore", 1000);
+
+    pacemakerAPI.store(); 
   }
   
 }
