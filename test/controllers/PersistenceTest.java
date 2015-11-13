@@ -1,4 +1,4 @@
-package models;
+package controllers;
 import controllers.PaceMakerAPI;
 import static org.junit.Assert.*;
 

@@ -1,6 +1,9 @@
-package models;
+package controllers;
 
 import static org.junit.Assert.*;
+import models.Activity;
+import models.Location;
+import models.User;
 
 import org.junit.After;
 import org.junit.Before;
