@@ -1,0 +1,86 @@
+<object-stream>
+  <java.util.Stack serialization="custom">
+    <unserializable-parents/>
+    <vector>
+      <default>
+        <capacityIncrement>0</capacityIncrement>
+        <elementCount>3</elementCount>
+        <elementData>
+          <map>
+            <entry>
+              <long>0</long>
+              <models.User>
+                <id>0</id>
+                <firstName>Bart</firstName>
+                <lastName>Simpson</lastName>
+                <email>bart@simpson.com</email>
+                <password>secret</password>
+                <activities/>
+              </models.User>
+            </entry>
+            <entry>
+              <long>1</long>
+              <models.User>
+                <id>1</id>
+                <firstName>Homer</firstName>
+                <lastName>Simpson</lastName>
+                <email>homer@simpson.com</email>
+                <password>secret</password>
+                <activities>
+                  <entry>
+                    <long>0</long>
+                    <models.Activity>
+                      <id>0</id>
+                      <type>walk</type>
+                      <location>tramore</location>
+                      <distance>1000.0</distance>
+                      <route/>
+                    </models.Activity>
+                  </entry>
+                </activities>
+              </models.User>
+            </entry>
+            <entry>
+              <long>2</long>
+              <models.User>
+                <id>2</id>
+                <firstName>Lisa</firstName>
+                <lastName>Simpson</lastName>
+                <email> lisa@simpson.com</email>
+                <password>secret</password>
+                <activities/>
+              </models.User>
+            </entry>
+          </map>
+          <map>
+            <entry>
+              <string>bart@simpson.com</string>
+              <models.User reference="../../../map/entry/models.User"/>
+            </entry>
+            <entry>
+              <string>homer@simpson.com</string>
+              <models.User reference="../../../map/entry[2]/models.User"/>
+            </entry>
+            <entry>
+              <string> lisa@simpson.com</string>
+              <models.User reference="../../../map/entry[3]/models.User"/>
+            </entry>
+          </map>
+          <map>
+            <entry>
+              <long>0</long>
+              <models.Activity reference="../../../map/entry[2]/models.User/activities/entry/models.Activity"/>
+            </entry>
+          </map>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+        </elementData>
+      </default>
+    </vector>
+  </java.util.Stack>
+</object-stream>
