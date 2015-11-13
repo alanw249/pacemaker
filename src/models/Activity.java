@@ -30,6 +30,23 @@ public class Activity
     this.location  = location;
     this.distance  = distance;
   }
+  
+  @Override
+  public boolean equals(final Object obj)
+  {
+    if (obj instanceof Activity)
+    {
+      final Activity other = (Activity) obj;
+      return Objects.equal(type, other.type) 
+          && Objects.equal(location,  other.location)
+          && Objects.equal(distance,  other.distance)
+          && Objects.equal(route,     other.route);    
+    }
+    else
+    {
+      return false;
+    }
+  }
 
   @Override
   public String toString()
