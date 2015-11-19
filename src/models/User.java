@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import utils.ToJsonString;
+
 import com.google.common.base.Objects;
 
 
@@ -56,11 +58,6 @@ public class User
   @Override
   public String toString()
   {
-    return toStringHelper(this).addValue(id)
-    														.addValue(firstName)
-                               .addValue(lastName)
-                               .addValue(password)
-                               .addValue(email)                               
-                               .toString();
+    return new ToJsonString(getClass(), this).toString();
   }
 }

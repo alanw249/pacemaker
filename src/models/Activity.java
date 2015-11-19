@@ -5,6 +5,8 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.ToJsonString;
+
 import com.google.common.base.Objects;
 
 public class Activity 
@@ -51,12 +53,7 @@ public class Activity
   @Override
   public String toString()
   {
-    return toStringHelper(this).addValue(id)
-                               .addValue(type)
-                               .addValue(location)
-                               .addValue(distance)
-                               .addValue(route)
-                               .toString();
+    return new ToJsonString(getClass(), this).toString();
   }
 
   @Override  
