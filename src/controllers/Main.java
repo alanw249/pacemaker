@@ -1,46 +1,99 @@
 package controllers;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.Collection;
-import java.util.List;
 
+import com.google.common.base.Optional;
+
+import models.Activity;
+import models.User;
 import utils.Serializer;
 import utils.XMLSerializer;
+import asg.cliche.Command;
+import asg.cliche.Param;
+import asg.cliche.Shell;
+import asg.cliche.ShellFactory;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
-
-import static com.google.common.base.MoreObjects.toStringHelper;
-import models.User;
 
 public class Main
 {
-  public static void main(String[] args) throws Exception
-  {    
-  	File  datastore = new File("datastore2.xml");
+  public PaceMakerAPI paceApi;
+
+  public Main() throws Exception
+  {
+    File datastore = new File("datastore.xml");
     Serializer serializer = new XMLSerializer(datastore);
 
-    PaceMakerAPI pacemakerAPI = new PaceMakerAPI(serializer);
+    paceApi = new PaceMakerAPI(serializer);
     if (datastore.isFile())
     {
-      pacemakerAPI.load();
+      paceApi.load();
     }
+  }
 
-    pacemakerAPI.createUser("Bart", "Simpson",   "bart@simpson.com", "secret");
-    pacemakerAPI.createUser("Homer", "Simpson",  "homer@simpson.com", "secret");
-    pacemakerAPI.createUser("Lisa", "Simpson", " lisa@simpson.com", "secret");
+  public static void main(String[] args) throws Exception
+  {
+    Main main = new Main();
 
-    Collection<User> users = pacemakerAPI.getUsers();
-    System.out.println(users);
+    Shell shell = ShellFactory.createConsoleShell("pm", "Welcome to pacemaker-console - ?help for instructions", main);
+    shell.commandLoop();
 
-    User homer = pacemakerAPI.getUserByEmail("homer@simpson.com");
-    pacemakerAPI.createActivity(homer.id, "walk", "tramore", 1000);
-
-    pacemakerAPI.store(); 
+    main.paceApi.store();
   }
   
+  @Command(description="Get all users details")
+  public void getUsers()
+  {
+  	Collection<User> users = paceApi.getUsers();
+  	System.out.println(users);
+  }
+  
+  @Command(description="Create a new User")
+  public void createUser (@Param(name="first name") String firstName, @Param(name="last name") String lastName, 
+                          @Param(name="email")      String email,     @Param(name="password")  String password)
+  {
+    paceApi.createUser(firstName, lastName, email, password);
+  }
+  
+  @Command(description="Get a Users detail")
+  public void getUser (@Param(name="email") String email)
+  {
+    User user = paceApi.getUserByEmail(email);
+    System.out.println(user);
+  }
+  
+  @Command(description="Delete a User")
+  public void deleteUser (@Param(name="email") String email)
+  {
+    Optional<User> user = Optional.fromNullable(paceApi.getUserByEmail(email));
+    if (user.isPresent())
+    {
+      paceApi.deleteUser(user.get().id);
+    }
+    
+  
+  }
+  
+  @Command(description="Add an activity")
+  public void addActivity (@Param(name="user-id")  Long   id,       @Param(name="type") String type, 
+                           @Param(name="location") String location, @Param(name="distance") double distance)
+  {
+    Optional<User> user = Optional.fromNullable(paceApi.getUser(id));
+    if (user.isPresent())
+    {
+      paceApi.createActivity(id, type, location, distance);
+    }
+  }
+
+  @Command(description="Add Location to an activity")
+  public void addLocation (@Param(name="activity-id")  Long  id,   
+                           @Param(name="latitude")     float latitude, @Param(name="longitude") float longitude)
+  {
+    Optional<Activity> activity = Optional.fromNullable(paceApi.getActivity(id));
+    if (activity.isPresent())
+    {
+      paceApi.addLocation(activity.get().id, latitude, longitude);
+    }
+  }
 }
 
